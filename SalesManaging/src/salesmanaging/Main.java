@@ -50,6 +50,7 @@ public class Main implements ActionListener{
 		frame.add(mainPanel, BorderLayout.CENTER);
 		leftPanel.btnAbout.addActionListener(this);
 		leftPanel.btnNhpHngHa.addActionListener(this);
+		leftPanel.btnXutHngHa.addActionListener(this);
 		leftPanel.btnQuanLHng.addActionListener(this);
 		leftPanel.btnQunLKhch.addActionListener(this);
 		leftPanel.btnQunLKho.addActionListener(this);
@@ -63,14 +64,15 @@ public class Main implements ActionListener{
 		Object obj=e.getSource();
 		if (obj==leftPanel.btnNhpHngHa) {
 			mainPanel.cardLayout.show(mainPanel, "1");
-		}else
-		if(obj==leftPanel.btnQuanLHng){
+		}else if (obj==leftPanel.btnXutHngHa) {
+			mainPanel.cardLayout.show(mainPanel, "8");
+		}else if(obj==leftPanel.btnQuanLHng){
 			mainPanel.cardLayout.show(mainPanel, "2");
 		}else if (obj==leftPanel.btnQunLKhch) {
 			mainPanel.cardLayout.show(mainPanel, "3");
-		}else if (obj==leftPanel.btnQunLKho) {
-			mainPanel.cardLayout.show(mainPanel, "4");
 		}else if (obj==leftPanel.btnQunLNh) {
+			mainPanel.cardLayout.show(mainPanel, "4");
+		}else if (obj==leftPanel.btnQunLKho) {
 			mainPanel.cardLayout.show(mainPanel, "5");
 		}else if (obj==leftPanel.btnAbout) {
 			mainPanel.cardLayout.show(mainPanel, "6");
