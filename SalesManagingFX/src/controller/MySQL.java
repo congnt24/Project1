@@ -1,4 +1,4 @@
-package application;
+package controller;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,14 +8,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.Date;
 
+import controller.QLController.Item;
+import controller.QLController.QLKHItem;
+import controller.QLController.QLKItem;
+import controller.QLController.QLNCCItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 
-import application.QLController.Item;
-import application.QLController.QLKHItem;
-import application.QLController.QLKItem;
-import application.QLController.QLNCCItem;
+import javafx.scene.control.Label;
 
 
 public class MySQL {
@@ -158,10 +159,23 @@ public class MySQL {
 		}
 		return list;
 	}
-	public ArrayList<String> getTenHangHoa() {
-		ArrayList<String> list=new ArrayList<String>();
+
+	
+	public ObservableList<String> getIDSaleFX(String string) {
+		ObservableList<String> list=FXCollections.observableArrayList();
 		try {
-			Statement st=conn.createStatement();
+			ResultSet rs=st.executeQuery("SELECT * FROM hang_hoa WHERE tenhanghoa=\""+string+"\";");
+			while (rs.next()) {
+				list.add(rs.getString("mahanghoa"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	public ObservableList<String> getNameSale() {
+		ObservableList<String> list=FXCollections.observableArrayList();
+		try {
 			ResultSet rs=st.executeQuery("SELECT * FROM hang_hoa;");
 			while (rs.next()) {
 				list.add(rs.getString("tenhanghoa"));
@@ -170,5 +184,21 @@ public class MySQL {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	public int getSaleFX(Label pricesale, Label producersale, String name, String id) {
+		int price = 0;
+		try {
+			ResultSet rs=st.executeQuery("SELECT * FROM hang_hoa INNER JOIN nhacungcap ON hang_hoa.idnhacungcap=nhacungcap.idnhacungcap WHERE mahanghoa="+id+" AND tenhanghoa=\""+name+"\";");
+			rs.next();
+			price=rs.getInt("gia");
+			pricesale.setText(price+"");
+			producersale.setText(rs.getString("tennhacungcap"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return (price);
+	}
+	public void storageSale(String id, String amount, String sum, int datra) {
+		
 	}
 }

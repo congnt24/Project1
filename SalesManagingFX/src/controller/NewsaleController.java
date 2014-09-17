@@ -1,8 +1,9 @@
-package application;
+package controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import model.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -24,5 +25,6 @@ public class NewsaleController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		producer.setItems(Main.mysql.getComboboxNhaCungCap());
+		producer.getSelectionModel().select(0);
 	}
 }

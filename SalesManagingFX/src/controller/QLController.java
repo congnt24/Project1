@@ -1,9 +1,10 @@
-package application;
+package controller;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import model.Main;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -14,9 +15,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class QLController implements Initializable {
@@ -131,7 +136,17 @@ public class QLController implements Initializable {
 	@FXML TableColumn<QLNCCItem, Integer> qlnccc01;
 	@FXML TableColumn<QLNCCItem, String> qlnccc02;
 	@FXML TableColumn<QLKItem, Integer> qlkc01,qlkc02,qlkc03;
-	@FXML TableColumn<QLKItem, String> qlkc04,qlkc05,qlkc06;
+	@FXML TableColumn<QLKItem, String> qlkc04,qlkc05,qlkc06;	
+	
+	//Nhap hang hoa
+	
+	@FXML ComboBox<String> idsale, namesale;
+	@FXML Label pricesale, sumpricesale, producersale, alert, alertamount;
+	@FXML TextField amountsale, datra;
+	
+	
+	
+	
 	public static ObservableList<Item> list=FXCollections.observableArrayList();
 	public static ObservableList<QLKHItem> qlkhList=FXCollections.observableArrayList();
 	public static ObservableList<QLNCCItem> qlnccList=FXCollections.observableArrayList();
@@ -160,26 +175,74 @@ public class QLController implements Initializable {
 		qlkc04.setCellValueFactory(new PropertyValueFactory<QLKItem, String>("name"));
 		qlkc04.setCellValueFactory(new PropertyValueFactory<QLKItem, String>("producer"));
 		qlk.setItems(qlkList);
+		
+		//Combobox
+		namesale.setItems(Main.mysql.getNameSale());
+		
 	}
-
+	//New Dialog
 	@FXML
 	public void newCustomer(ActionEvent event) throws IOException{
-		System.out.println("Clicked");
 		stage=new Stage();
-		Parent root=FXMLLoader.load(getClass().getResource("addCustomer.fxml"));
+		Parent root=FXMLLoader.load(ClassLoader.getSystemResource("view/addCustomer.fxml"));
 		Scene scene=new Scene(root, 400, 500);
 		stage.setTitle("Add new Customer Dialog");
 		stage.setScene(scene);
 		stage.show();
 	}
 	@FXML public void newSale(ActionEvent event) throws IOException{
-		System.out.println("check");
 		stage=new Stage();
-		Parent root=FXMLLoader.load(getClass().getResource("newsale.fxml"));
+		Parent root=FXMLLoader.load(ClassLoader.getSystemResource("view/newsale.fxml"));
 		Scene scene=new Scene(root, 400, 500);
 		stage.setTitle("Add new Sale");
 		stage.setScene(scene);
 		stage.show();
 	}
+	
+	
+	@FXML public void selectNameSale(){
+		idsale.setItems(Main.mysql.getIDSaleFX(namesale.getSelectionModel().getSelectedItem()));
+		idsale.getSelectionModel().select(0);
+		try {
+			int prices=Integer.parseInt(amountsale.getText().trim());
+			sumpricesale.setText(prices*Main.mysql.getSaleFX(pricesale, producersale, namesale.getSelectionModel().getSelectedItem(), idsale.getSelectionModel().getSelectedItem())+"");
+			alertamount.setText("OK");
+			alertamount.setTextFill(Color.web("#0000FF"));
+		} catch (Exception e) {
+			sumpricesale.setText(0*Main.mysql.getSaleFX(pricesale, producersale, namesale.getSelectionModel().getSelectedItem(), idsale.getSelectionModel().getSelectedItem())+"");
+			alertamount.setText("Exception!!!");
+			alertamount.setTextFill(Color.web("#FF0000"));
+		}
+	}
+		
+	@FXML public void setAmountSale() throws Exception{
+		try {
+			int amounts=Integer.parseInt(pricesale.getText());
+			sumpricesale.setText(amounts*Integer.parseInt(amountsale.getText())+"");
+			alertamount.setText("OK");
+			alertamount.setTextFill(Color.web("#0000FF"));
+		} catch (Exception e) {
+			alertamount.setText("Exception!!!");
+			alertamount.setTextFill(Color.web("#FF0000"));
+		}
+
+	}
+	
+	@FXML public void addKho(ActionEvent event){
+		try {
+			int tra=Integer.parseInt(datra.getText().trim());
+			int sum=Integer.parseInt(sumpricesale.getText().trim());
+			Integer.parseInt(amountsale.getText());
+			Main.mysql.storageSale(idsale.getSelectionModel().getSelectedItem(), amountsale.getText(), sum+"", tra);
+			alert.setText("Storage Successfully!!!!!!!!!!!!!");
+			alert.setTextFill(Color.web("#0000FF"));
+	} catch (Exception e) {
+			alert.setText("Error!!!!!!!!!!!!!");
+			alert.setTextFill(Color.web("#FF0000"));
+		}
+		
+	}
+	
+	
 
 }

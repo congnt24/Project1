@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.QLController">
+<BorderPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.QLController">
    <center>
-      <TabPane prefHeight="393.0" prefWidth="600.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane prefHeight="393.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
          <tabs>
             <Tab text="Nhập Hàng Hóa">
                <content>
@@ -41,41 +41,51 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="225.0" text="Tên Hàng Hóa : " textAlignment="RIGHT" GridPane.rowIndex="2">
+                        <Label alignment="CENTER_RIGHT" prefHeight="25.0" prefWidth="225.0" text="Tên Hàng Hóa : " textAlignment="RIGHT" GridPane.rowIndex="1">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <TextField fx:id="amountsale" layoutX="235.0" layoutY="13.0" onKeyReleased="#setAmountSale" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <TextField layoutX="235.0" layoutY="13.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <TextField fx:id="datra" layoutX="235.0" layoutY="99.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </TextField>
-                        <TextField layoutX="235.0" layoutY="99.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </TextField>
-                        <Label alignment="CENTER" prefHeight="17.0" prefWidth="415.0" text="00000" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                        <Label fx:id="sumpricesale" alignment="CENTER" prefHeight="17.0" prefWidth="415.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <ComboBox prefHeight="25.0" prefWidth="380.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                        <Button mnemonicParsing="false" prefWidth="380.0" text="Submit" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="145.0" prefHeight="25.0" prefWidth="225.0" text="ID : " textAlignment="RIGHT" GridPane.rowIndex="1">
+                        <Button mnemonicParsing="false" onAction="#addKho" prefWidth="380.0" text="Submit" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                        <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="145.0" prefHeight="25.0" prefWidth="225.0" text="ID : " textAlignment="RIGHT" GridPane.rowIndex="2">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
                         <Button mnemonicParsing="false" onAction="#newSale" text="New Sale" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                        <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label alignment="CENTER" layoutX="183.0" layoutY="214.0" prefHeight="17.0" prefWidth="415.0" text="00000" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <Label fx:id="pricesale" alignment="CENTER" layoutX="183.0" layoutY="214.0" prefHeight="17.0" prefWidth="415.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="producersale" alignment="CENTER" layoutX="193.0" layoutY="199.0" prefHeight="17.0" prefWidth="415.0" text="Apple" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="idsale" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <ComboBox fx:id="namesale" onAction="#selectNameSale" prefWidth="300.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="alert" alignment="CENTER" layoutX="10.0" layoutY="244.0" prefHeight="27.0" prefWidth="403.0" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="9">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="alertamount" alignment="CENTER_RIGHT" layoutX="10.0" layoutY="64.0" prefHeight="25.0" prefWidth="225.0" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="4">
                            <font>
                               <Font size="18.0" />
                            </font>
