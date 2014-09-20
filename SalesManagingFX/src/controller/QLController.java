@@ -4,9 +4,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import model.Customer;
 import model.Main;
+import model.Producer;
+import model.Sales;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,67 +31,6 @@ import javafx.stage.Stage;
 
 public class QLController implements Initializable {
 	public static Stage stage;
-	public static class Item {
-		private SimpleIntegerProperty id=new SimpleIntegerProperty();
-		private SimpleStringProperty name=new SimpleStringProperty();
-		private SimpleIntegerProperty price=new SimpleIntegerProperty();
-		private SimpleStringProperty producer=new SimpleStringProperty();
-		public int getId() {
-			return id.get();
-		}
-		public String getName() {
-			return name.get();
-		}
-		public int getPrice() {
-			return price.get();
-		}
-		public String getProducer() {
-			return producer.get();
-		}
-		public Item(int id, String name,
-				int price, String producer) {
-			this.id.setValue(id);
-			this.name.setValue(name);
-			this.price.setValue(price);
-			this.producer.setValue(producer);
-		}
-	}
-	
-	public static class QLKHItem{
-		private SimpleIntegerProperty id=new SimpleIntegerProperty();
-		private SimpleStringProperty name=new SimpleStringProperty();
-		private SimpleStringProperty address=new SimpleStringProperty();
-		public int getId() {
-			return id.get();
-		}
-		public String getName() {
-			return name.get();
-		}
-		public String getAddress() {
-			return address.get();
-		}
-		public QLKHItem(int id, String name, String address) {
-			this.id.setValue(id);
-			this.name.setValue(name);
-			this.address.setValue(address);
-		}
-	}
-	
-	public static class QLNCCItem{
-		private SimpleIntegerProperty id=new SimpleIntegerProperty();
-		private SimpleStringProperty name=new SimpleStringProperty();
-		public int getId() {
-			return id.get();
-		}
-		public String getName() {
-			return name.get();
-		}
-		public QLNCCItem(int id, String name) {
-			this.id.setValue(id);
-			this.name.setValue(name);
-		}
-	}
-	
 	
 	public static class QLKItem {
 		private SimpleIntegerProperty id=new SimpleIntegerProperty();
@@ -124,48 +68,52 @@ public class QLController implements Initializable {
 		
 	}
 	
-	@FXML TableView<Item> qlhh;
-	@FXML TableView<QLKHItem> qlkh;
-	@FXML TableView<QLNCCItem> qlncc;
+	@FXML TableView<Sales> qlhh;
+	@FXML TableView<Customer> qlkh;
+	@FXML TableView<Producer> qlncc;
 	@FXML TableView<QLKItem> qlk;
 	
-	@FXML TableColumn<Item, Integer> qlhhc01, qlhhc03 ;
-	@FXML TableColumn<Item, String> qlhhc02, qlhhc04 ;
-	@FXML TableColumn<QLKHItem, Integer> qlkhc01;
-	@FXML TableColumn<QLKHItem, String> qlkhc02, qlkhc03;
-	@FXML TableColumn<QLNCCItem, Integer> qlnccc01;
-	@FXML TableColumn<QLNCCItem, String> qlnccc02;
+	@FXML TableColumn<Sales, Integer> qlhhc01, qlhhc03 ;
+	@FXML TableColumn<Sales, String> qlhhc02, qlhhc04 ;
+	@FXML TableColumn<Customer, Integer> qlkhc01;
+	@FXML TableColumn<Customer, String> qlkhc02, qlkhc03;
+	@FXML TableColumn<Producer, Integer> qlnccc01;
+	@FXML TableColumn<Producer, String> qlnccc02;
 	@FXML TableColumn<QLKItem, Integer> qlkc01,qlkc02,qlkc03;
 	@FXML TableColumn<QLKItem, String> qlkc04,qlkc05,qlkc06;	
 	
 	//Nhap hang hoa
 	
-	@FXML ComboBox<String> idsale, namesale;
-	@FXML Label pricesale, sumpricesale, producersale, alert, alertamount;
-	@FXML TextField amountsale, datra;
+	@FXML ComboBox<String> namesale, nameSale, nameCustomer;
+	@FXML ComboBox<Integer> idsale, idSale, idCustomer;
+	@FXML Label pricesale, sumpricesale, producersale, alert, alertamount, address, priceSale, sumpriceSale, producerSale;
+	@FXML TextField amountsale, datra, amountSale, datraSale;
 	
 	
 	
 	
-	public static ObservableList<Item> list=FXCollections.observableArrayList();
-	public static ObservableList<QLKHItem> qlkhList=FXCollections.observableArrayList();
-	public static ObservableList<QLNCCItem> qlnccList=FXCollections.observableArrayList();
+	public static ObservableList<Sales> list=FXCollections.observableArrayList();
+	public static ObservableList<Customer> qlkhList=FXCollections.observableArrayList();
+	public static ObservableList<Producer> qlnccList=FXCollections.observableArrayList();
 	public static ObservableList<QLKItem> qlkList=FXCollections.observableArrayList();
+	public static ObservableList<String> listName=FXCollections.observableArrayList();
+	
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		qlhhc01.setCellValueFactory(new PropertyValueFactory<Item, Integer>("id"));
-		qlhhc02.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
-		qlhhc03.setCellValueFactory(new PropertyValueFactory<Item, Integer>("price"));
-		qlhhc04.setCellValueFactory(new PropertyValueFactory<Item, String>("producer"));
+		qlhhc01.setCellValueFactory(new PropertyValueFactory<Sales, Integer>("id"));
+		qlhhc02.setCellValueFactory(new PropertyValueFactory<Sales, String>("name"));
+		qlhhc03.setCellValueFactory(new PropertyValueFactory<Sales, Integer>("price"));
+		qlhhc04.setCellValueFactory(new PropertyValueFactory<Sales, String>("producer"));
 		qlhh.setItems(list);
 		
-		qlkhc01.setCellValueFactory(new PropertyValueFactory<QLKHItem, Integer>("id"));
-		qlkhc02.setCellValueFactory(new PropertyValueFactory<QLKHItem, String>("name"));
-		qlkhc03.setCellValueFactory(new PropertyValueFactory<QLKHItem, String>("address"));
+		qlkhc01.setCellValueFactory(new PropertyValueFactory<Customer, Integer>("id"));
+		qlkhc02.setCellValueFactory(new PropertyValueFactory<Customer, String>("name"));
+		qlkhc03.setCellValueFactory(new PropertyValueFactory<Customer, String>("address"));
 		qlkh.setItems(qlkhList);
 		
-		qlnccc01.setCellValueFactory(new PropertyValueFactory<QLNCCItem, Integer>("id"));
-		qlnccc02.setCellValueFactory(new PropertyValueFactory<QLNCCItem, String>("name"));
+		qlnccc01.setCellValueFactory(new PropertyValueFactory<Producer, Integer>("id"));
+		qlnccc02.setCellValueFactory(new PropertyValueFactory<Producer, String>("name"));
 		qlncc.setItems(qlnccList);
 
 		qlkc01.setCellValueFactory(new PropertyValueFactory<QLKItem, Integer>("id"));
@@ -176,10 +124,23 @@ public class QLController implements Initializable {
 		qlkc04.setCellValueFactory(new PropertyValueFactory<QLKItem, String>("producer"));
 		qlk.setItems(qlkList);
 		
-		//Combobox
-		namesale.setItems(Main.mysql.getNameSale());
 		
+		//List
+		
+		//Combobox
+		listName=Main.mysql.getHangHoaFX(list);
+		namesale.setItems(listName);
+		nameSale.setItems(namesale.getItems());
+		namesale.getSelectionModel().selectedItemProperty().addListener(new comboBoxNameSale(idsale));
+		nameSale.getSelectionModel().selectedItemProperty().addListener(new comboBoxNameSale(idSale));
+		idsale.getSelectionModel().selectedItemProperty().addListener(new comboBoxIdSale(pricesale, producersale, sumpricesale, amountsale));
+		idSale.getSelectionModel().selectedItemProperty().addListener(new comboBoxIdSale(priceSale, producerSale, sumpriceSale, amountSale));
+		nameCustomer.setItems(Main.mysql.getKhachHangFX(qlkhList));
+		Main.mysql.getNhaCungCapFX(qlnccList);
 	}
+	
+	
+	
 	//New Dialog
 	@FXML
 	public void newCustomer(ActionEvent event) throws IOException{
@@ -199,23 +160,7 @@ public class QLController implements Initializable {
 		stage.show();
 	}
 	
-	
-	@FXML public void selectNameSale(){
-		idsale.setItems(Main.mysql.getIDSaleFX(namesale.getSelectionModel().getSelectedItem()));
-		idsale.getSelectionModel().select(0);
-		try {
-			int prices=Integer.parseInt(amountsale.getText().trim());
-			sumpricesale.setText(prices*Main.mysql.getSaleFX(pricesale, producersale, namesale.getSelectionModel().getSelectedItem(), idsale.getSelectionModel().getSelectedItem())+"");
-			alertamount.setText("OK");
-			alertamount.setTextFill(Color.web("#0000FF"));
-		} catch (Exception e) {
-			sumpricesale.setText(0*Main.mysql.getSaleFX(pricesale, producersale, namesale.getSelectionModel().getSelectedItem(), idsale.getSelectionModel().getSelectedItem())+"");
-			alertamount.setText("Exception!!!");
-			alertamount.setTextFill(Color.web("#FF0000"));
-		}
-	}
-		
-	@FXML public void setAmountSale() throws Exception{
+	@FXML public void setAmountSale(){
 		try {
 			int amounts=Integer.parseInt(pricesale.getText());
 			sumpricesale.setText(amounts*Integer.parseInt(amountsale.getText())+"");
@@ -227,13 +172,22 @@ public class QLController implements Initializable {
 		}
 
 	}
-	
-	@FXML public void addKho(ActionEvent event){
+	@FXML public void setAmountSale2(){
 		try {
-			int tra=Integer.parseInt(datra.getText().trim());
-			int sum=Integer.parseInt(sumpricesale.getText().trim());
+			int amounts=Integer.parseInt(priceSale.getText());
+			sumpriceSale.setText(amounts*Integer.parseInt(amountSale.getText())+"");
+		} catch (Exception e) {
+		}
+	}
+	//Xuat hang hoa
+	
+	
+	@FXML public void storage(ActionEvent event){
+		try {
+//			int tra=Integer.parseInt(datra.getText().trim());
+//			int sum=Integer.parseInt(sumpricesale.getText().trim());
 			Integer.parseInt(amountsale.getText());
-			Main.mysql.storageSale(idsale.getSelectionModel().getSelectedItem(), amountsale.getText(), sum+"", tra);
+//			Main.mysql.storageSale(idsale.getSelectionModel().getSelectedItem(), amountsale.getText(), sum+"", tra);
 			alert.setText("Storage Successfully!!!!!!!!!!!!!");
 			alert.setTextFill(Color.web("#0000FF"));
 	} catch (Exception e) {
@@ -243,6 +197,49 @@ public class QLController implements Initializable {
 		
 	}
 	
+	@FXML public void idChange(ActionEvent event){
+		if (!idCustomer.getSelectionModel().isEmpty()) {
+			address.setText(Main.mysql.getCustomerFX(idCustomer.getSelectionModel().getSelectedItem()));
+		}
+	}
+	@FXML public void nameChange(ActionEvent event){
+		idCustomer.setItems(Main.mysql.getIDCustomerFX(nameCustomer.getSelectionModel().getSelectedItem()));
+		idCustomer.getSelectionModel().selectFirst();
+	}
 	
-
+	
+	//Class
+	public class comboBoxNameSale implements ChangeListener<String>{
+		ComboBox<Integer> idbox;
+		public comboBoxNameSale(ComboBox<Integer> idbox) {
+			this.idbox = idbox;
+		}
+		@Override
+		public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+			idbox.setItems(Main.mysql.getIDSaleFX(observable.getValue()));
+			idbox.getSelectionModel().select(0);
+		}
+	}
+	
+	private class comboBoxIdSale implements ChangeListener<Integer>{
+		Label pricesale, producersale, sumpricesale;
+		TextField amountsale;
+		public comboBoxIdSale(Label pricesale, Label producersale, Label sumpricesale, TextField amountsale) {
+			this.pricesale = pricesale;
+			this.producersale = producersale;
+			this.sumpricesale = sumpricesale;
+			this.amountsale=amountsale;
+		}
+		@Override
+		public void changed(ObservableValue<? extends Integer> id, Integer arg1, Integer arg2) {
+			try {
+				int price=Main.mysql.getSaleFX(pricesale, producersale, id.getValue());
+				int amount=Integer.parseInt(amountsale.getText().trim());
+				sumpricesale.setText(price*amount+"");
+			} catch (Exception e) {
+				sumpricesale.setText("0");
+			}
+		}
+	}
+	
 }

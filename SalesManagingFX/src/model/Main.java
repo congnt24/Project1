@@ -1,6 +1,7 @@
 package model;
 	
 
+
 import controller.MySQL;
 import controller.QLController;
 import javafx.application.Application;
@@ -19,12 +20,11 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			Parent root= FXMLLoader.load(ClassLoader.getSystemResource("view/gui.fxml"));
-			Scene scene = new Scene(root,400,400);
+			Scene scene = new Scene(root,400,600);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
-			mysql.getHangHoaFX(QLController.list);
-			mysql.getKhachHangFX(QLController.qlkhList);
-			mysql.getNhaCungCapFX(QLController.qlnccList);
+//			mysql.getKhachHangFX(QLController.qlkhList);
+//			mysql.getNhaCungCapFX(QLController.qlnccList);
 			mysql.getKhoFX(QLController.qlkList);
 			primaryStage.show();
 		} catch(Exception e) {

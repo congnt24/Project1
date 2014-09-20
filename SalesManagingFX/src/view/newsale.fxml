@@ -63,5 +63,10 @@
          </font>
       </Label>
       <ComboBox fx:id="producer" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <Label fx:id="alert" prefHeight="17.0" prefWidth="242.0" text="Label" textFill="RED" GridPane.columnIndex="1" GridPane.rowIndex="5">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </GridPane>
