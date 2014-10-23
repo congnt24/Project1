@@ -87,6 +87,7 @@ public class MySQL {
 		}
 	}
 	public void getKhoFX(ObservableList<QLKItem> list){
+		list.removeAll(list);
 		String sql="SELECT * FROM kho, hang_hoa WHERE kho.mahanghoa=hang_hoa.mahanghoa ;";
 		try {
 			ResultSet rs=st.executeQuery(sql);
@@ -184,6 +185,8 @@ public class MySQL {
 		String sql="INSERT INTO hoadonnhap (ngaytra, tongsotien, datra, soluong, mahanghoa, idnhacungcap) VALUES (\""+dt+"\", "+sum+", "+datra+", "+amount+", "+id+", "+idncc+")";
 		try {
 			st.execute(sql);
+			sql="UPDATE kho SET soluong=(SELECT soluong)+"+amount+" WHERE mahanghoa="+id;
+			st.execute(sql);
 			return "1";
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -243,6 +246,8 @@ public class MySQL {
 	public String insertXuat(int idkh, int idhh,int sl, int tong,  int datra) throws SQLException{
 		String sql="INSERT INTO hoadonxuat (ngaytra, sotienconlai, sotiendatra, soluong, mahanghoa, id) VALUES (\""+dateFormat.format(d)+"\", "+tong+", "+datra+", "+sl+", "+idhh+", "+idkh+")";
 		try {
+			st.execute(sql);
+			sql="UPDATE kho SET soluong=(SELECT soluong)-"+sl+" WHERE mahanghoa="+idhh;
 			st.execute(sql);
 			return "1";
 		} catch (SQLException e) {

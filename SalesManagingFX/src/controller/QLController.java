@@ -263,6 +263,7 @@ public class QLController implements Initializable {
 			int amount=Integer.parseInt(amountsale.getText());
 			String ncc=producersale.getText().trim();
 			Main.mysql.storageSale(idsale.getSelectionModel().getSelectedItem(), amount, ncc, sum, tra);
+			Main.mysql.getKhoFX(qlkList);
 			alert.setText("Storage Successfully!!!!!!!!!!!!!");
 			alert.setTextFill(Color.web("#0000FF"));
 	} catch (Exception e) {
@@ -280,6 +281,7 @@ public class QLController implements Initializable {
 			int saleSum=Integer.parseInt(sumpriceSale.getText().trim());
 			int saleDatra=Integer.parseInt(datraSale.getText().trim());
 			Main.mysql.insertXuat(customerId, saleId, saleAmount, saleSum, saleDatra);
+			Main.mysql.getKhoFX(qlkList);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
