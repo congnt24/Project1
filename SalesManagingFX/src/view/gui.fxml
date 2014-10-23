@@ -160,7 +160,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="300.0" text="Xuất" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                        <Button mnemonicParsing="false" onAction="#xuat" prefHeight="25.0" prefWidth="300.0" text="Xuất" GridPane.columnIndex="1" GridPane.rowIndex="10" />
                         <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="19.0" prefHeight="25.0" prefWidth="225.0" text="Tên Khách Hàng : " textAlignment="RIGHT" GridPane.rowIndex="1">
                            <font>
                               <Font size="18.0" />
@@ -233,35 +233,140 @@
             </Tab>
             <Tab text="QL Hàng Hóa">
                <content>
-                  <TableView fx:id="qlhh">
-                     <columns>
-                        <TableColumn fx:id="qlhhc01" prefWidth="112.0" text="Mã Hàng Hóa" />
-                        <TableColumn fx:id="qlhhc02" prefWidth="190.0" text="Tên Hàng Hóa" />
-                        <TableColumn fx:id="qlhhc03" prefWidth="106.0" text="Giá" />
-                        <TableColumn fx:id="qlhhc04" prefWidth="189.0" text="Nhà Cung Cấp" />
-                     </columns>
-                  </TableView>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="qlhh">
+                           <columns>
+                              <TableColumn fx:id="qlhhc01" prefWidth="112.0" text="Mã Hàng Hóa" />
+                              <TableColumn fx:id="qlhhc02" prefWidth="190.0" text="Tên Hàng Hóa" />
+                              <TableColumn fx:id="qlhhc03" prefWidth="106.0" text="Giá" />
+                              <TableColumn fx:id="qlhhc04" prefWidth="189.0" text="Nhà Cung Cấp" />
+                           </columns>
+                        </TableView>
+                        <GridPane>
+                          <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Details:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label layoutX="10.0" layoutY="58.0" text="Id : " GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label layoutX="10.0" layoutY="170.0" text="Name : " GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Label layoutX="10.0" layoutY="281.0" text="Prices : " GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <Label layoutX="10.0" layoutY="263.0" text="Producer : " GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                              <Button mnemonicParsing="false" onAction="#editSale" text="Edit" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                              <Button layoutX="10.0" layoutY="407.0" mnemonicParsing="false" onAction="#deleteSale" text="Delete" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                              <Button mnemonicParsing="false" onAction="#newSale" text="New" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                              <Label fx:id="idLabel" text="label" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <Label fx:id="nameLabel" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                              <Label fx:id="pricesLabel" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                              <Label fx:id="producerLabel" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                           </children>
+                        </GridPane>
+                     </children>
+                  </HBox>
                </content>
             </Tab>
             <Tab text="QL Khác Hàng">
                <content>
-                  <TableView fx:id="qlkh">
-                     <columns>
-                        <TableColumn fx:id="qlkhc01" prefWidth="110.0" text="ID" />
-                        <TableColumn fx:id="qlkhc02" prefWidth="202.0" text="Tên Khách Hàng" />
-                        <TableColumn fx:id="qlkhc03" minWidth="0.0" prefWidth="287.0" text="Address" />
-                     </columns>
-                  </TableView>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="qlkh">
+                           <columns>
+                              <TableColumn fx:id="qlkhc01" prefWidth="110.0" text="ID" />
+                              <TableColumn fx:id="qlkhc02" prefWidth="202.0" text="Tên Khách Hàng" />
+                              <TableColumn fx:id="qlkhc03" minWidth="0.0" prefWidth="287.0" text="Address" />
+                           </columns>
+                        </TableView>
+                        <GridPane>
+                           <children>
+                              <Label text="Details:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label layoutX="10.0" layoutY="58.0" text="Id : " GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label layoutX="10.0" layoutY="170.0" text="Name : " GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Label layoutX="10.0" layoutY="281.0" text="Address : " GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <Button mnemonicParsing="false" onAction="#editCustomer" text="Edit" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                              <Button layoutX="10.0" layoutY="407.0" mnemonicParsing="false" onAction="#deleteCustomer" text="Delete" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                              <Button mnemonicParsing="false" onAction="#newCustomer" text="New" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                              <Label fx:id="idLabel1" text="label" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <Label fx:id="nameLabel1" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                              <Label fx:id="addressLabel1" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </HBox>
                </content>
             </Tab>
             <Tab text="QL Nhà Cung Cấp">
                <content>
-                  <TableView fx:id="qlncc">
-                     <columns>
-                        <TableColumn fx:id="qlnccc01" prefWidth="188.0" text="ID" />
-                        <TableColumn fx:id="qlnccc02" prefWidth="307.0" text="Tên Nhà Cung Cấp" />
-                     </columns>
-                  </TableView>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="qlncc">
+                           <columns>
+                              <TableColumn fx:id="qlnccc01" prefWidth="188.0" text="ID" />
+                              <TableColumn fx:id="qlnccc02" prefWidth="307.0" text="Tên Nhà Cung Cấp" />
+                           </columns>
+                        </TableView>
+                        <GridPane>
+                           <children>
+                              <Label text="Details:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label layoutX="10.0" layoutY="58.0" text="Id : " GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label layoutX="10.0" layoutY="170.0" text="Name : " GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Button mnemonicParsing="false" onAction="#editProducer" text="Edit" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                              <Button layoutX="10.0" layoutY="407.0" mnemonicParsing="false" onAction="#deleteProducer" text="Delete" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                              <Button mnemonicParsing="false" onAction="#newProducer" text="New" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                              <Label fx:id="idLabel2" text="label" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <Label fx:id="nameLabel2" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </HBox>
                </content>
             </Tab>
             <Tab text="QL Kho">
@@ -276,6 +381,66 @@
                         <TableColumn fx:id="qlkc06" prefWidth="128.0" text="Tên Nhà Cung Cấp" />
                      </columns>
                   </TableView>
+               </content>
+            </Tab>
+            <Tab text="Xuất">
+               <content>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="qlxuat">
+                           <columns>
+                              <TableColumn fx:id="qlxuatc01" prefWidth="96.0" text="Mã Xuất " />
+                              <TableColumn fx:id="qlxuatc02" prefWidth="75.0" text="Khách hàng" />
+                              <TableColumn fx:id="qlxuatc03" prefWidth="115.0" text="Tên Hàng Hóa" />
+                              <TableColumn fx:id="qlxuatc04" prefWidth="70.0" text="Số Lượng" />
+                              <TableColumn fx:id="qlxuatc05" prefWidth="94.0" text="Giá" />
+                              <TableColumn fx:id="qlxuatc06" prefWidth="97.0" text="Thành tiền" />
+                              <TableColumn fx:id="qlxuatc07" prefWidth="128.0" text="Đã trả" />
+                              <TableColumn fx:id="qlxuatc08" prefWidth="75.0" text="Còn nợ" />
+                           </columns>
+                        </TableView>
+                        <GridPane>
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </HBox>
+               </content>
+            </Tab>
+            <Tab text="Nhập">
+               <content>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="qlnhap">
+                           <columns>
+                              <TableColumn fx:id="qlkc012" prefWidth="96.0" text="Mã Xuất Nhập" />
+                              <TableColumn fx:id="qlkc022" prefWidth="70.0" text="Số Lượng" />
+                              <TableColumn fx:id="qlkc032" prefWidth="94.0" text="Giá" />
+                              <TableColumn fx:id="qlkc042" prefWidth="97.0" text="Ngày Cập Nhật" />
+                              <TableColumn fx:id="qlkc052" prefWidth="115.0" text="Tên Hàng Hóa" />
+                              <TableColumn fx:id="qlkc062" prefWidth="128.0" text="Tên Nhà Cung Cấp" />
+                           </columns>
+                        </TableView>
+                        <GridPane>
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </HBox>
                </content>
             </Tab>
          </tabs>

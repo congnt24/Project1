@@ -5,7 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import model.Customer;
 import model.Producer;
@@ -19,13 +20,15 @@ import javafx.scene.control.Label;
 
 
 public class MySQL {
+	Date d=new Date();
+	SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
 	Connection conn;
 	static Statement st;
 	Date date=new Date(new java.util.Date().getTime());
 	public boolean connect(){
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/project1?user=root");
+			conn=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/salemanaging?user=root");
 			if (conn!=null) {
 				System.out.println("Connection Successfully");
 				st=conn.createStatement();
@@ -57,27 +60,11 @@ public class MySQL {
 	public ObservableList<String> getHangHoaFX(ObservableList<Sales> obsList){
 		obsList.removeAll(obsList);
 		ObservableList<String> nameList=FXCollections.observableArrayList();
-		String sql="select * from hang_hoa inner join nhacungcap on hang_hoa.idnhacungcap = nhacungcap.idnhacungcap;";
+		String sql="select * from hang_hoa;";
 		try {
 			ResultSet rs=st.executeQuery(sql);
 			while (rs.next()) {
-				obsList.add(new Sales(rs.getInt("mahanghoa"), rs.getString("tenhanghoa"), rs.getInt("gia"), rs.getString("tennhacungcap")));
-				nameList.add(rs.getString("tenhanghoa"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return nameList;
-	}
-	
-	public ObservableList<String> getHangHoaFX2(ObservableList<Sales> obsList){
-		obsList.removeAll(obsList);
-		ObservableList<String> nameList=FXCollections.observableArrayList();
-		String sql="select * from hang_hoa inner join nhacungcap on hang_hoa.idnhacungcap = nhacungcap.idnhacungcap;";
-		try {
-			ResultSet rs=st.executeQuery(sql);
-			while (rs.next()) {
-				obsList.add(new Sales(rs.getInt("mahanghoa"), rs.getString("tenhanghoa"), rs.getInt("gia"), rs.getString("tennhacungcap")));
+				obsList.add(new Sales(rs.getInt("mahanghoa"), rs.getString("tenhanghoa"), rs.getInt("gia"), rs.getString("hangsanxuat")));
 				nameList.add(rs.getString("tenhanghoa"));
 			}
 		} catch (SQLException e) {
@@ -87,21 +74,9 @@ public class MySQL {
 	}
 	
 	
-	public ObservableList<String> getKhachHangFX(ObservableList<Customer> obsList){
-		ObservableList<String> list=FXCollections.observableArrayList();
-		String sql="SELECT * FROM khachhang;";
-		try {
-			ResultSet rs=st.executeQuery(sql);
-			while (rs.next()) {
-				obsList.add(new Customer(rs.getInt("id"), rs.getString("ten"), rs.getString("address")));
-				list.add(rs.getString("ten"));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
+	
 	public void getNhaCungCapFX(ObservableList<Producer> list){
+		list.removeAll(list);
 		try {
 			ResultSet rs=st.executeQuery("SELECT * FROM nhacungcap;");
 			while (rs.next()) {
@@ -112,6 +87,19 @@ public class MySQL {
 		}
 	}
 	public void getKhoFX(ObservableList<QLKItem> list){
+		String sql="SELECT * FROM kho, hang_hoa WHERE kho.mahanghoa=hang_hoa.mahanghoa ;";
+		try {
+			ResultSet rs=st.executeQuery(sql);
+			while (rs.next()) {
+				list.add(new QLKItem(rs.getInt("mahanghoa"), rs.getInt("soluong"), rs.getInt("gia"),
+						rs.getString("ngaycapnhat"), rs.getString("tenhanghoa"), rs.getString("hangsanxuat")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void getHoaDonXuat(ObservableList<QLKItem> list){
 		String sql="SELECT * FROM kho inner join hang_hoa on"
 				+ " kho.mahanghoa=hang_hoa.mahanghoa inner join nhacungcap"
 				+ " on hang_hoa.idnhacungcap=nhacungcap.idnhacungcap;";
@@ -125,8 +113,9 @@ public class MySQL {
 			e.printStackTrace();
 		}
 	}
+
 	
-	@SuppressWarnings("resource")
+	/*@SuppressWarnings("resource")
 	public void insertHangHoa(String name, String gia,
 			String soluong, String nhacungcap, String datra) {
 		int soLuong=Integer.parseInt(soluong);
@@ -160,7 +149,7 @@ public class MySQL {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-	}
+	}*/
 	public ObservableList<String> getComboboxNhaCungCap() {
 		ObservableList<String> list=FXCollections.observableArrayList();
 		try {
@@ -185,8 +174,21 @@ public class MySQL {
 		}
 		return list;
 	}
-	public void storageSale(String id, String amount, String sum, int datra) {
-		
+	public String storageSale(int id, int amount,String ncc, int sum, int datra) throws SQLException {
+		int idncc=0;
+		ResultSet rs=st.executeQuery("SELECT idnhacungcap FROM nhacungcap WHERE tennhacungcap=\""+ncc+"\"");
+		if (rs.next()) {
+			idncc=rs.getInt("idnhacungcap");
+		}
+		String dt=dateFormat.format(d);
+		String sql="INSERT INTO hoadonnhap (ngaytra, tongsotien, datra, soluong, mahanghoa, idnhacungcap) VALUES (\""+dt+"\", "+sum+", "+datra+", "+amount+", "+id+", "+idncc+")";
+		try {
+			st.execute(sql);
+			return "1";
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return "Error Insert to mysql!!!!";
+		}
 	}
 	public int getSaleFX(Label pricesale, Label producersale, int selectedItem) {
 		int price=0;
@@ -194,11 +196,86 @@ public class MySQL {
 			if (sale.getId()==selectedItem) {
 				price=sale.getPrice();
 				pricesale.setText(price+"");
-				producersale.setText(sale.getProducer());
+				producersale.setText(""+sale.getProducer());
 				break;
 			}
 		}
 		return 0;
+	}
+	
+	public String addSale(String text, int parseInt, String selectedItem) {
+		
+		String sql="INSERT INTO hang_hoa (hang_hoa.tenhanghoa, hang_hoa.gia, hang_hoa.hangsanxuat) VALUES (\""+text+"\", "+parseInt+", \""+selectedItem+"\");";
+		try {
+			st.execute(sql);
+			sql="SELECT mahanghoa FROM hang_hoa ORDER BY mahanghoa DESC LIMIT 0,1";
+			ResultSet rs=st.executeQuery(sql);
+			if (rs.next()) {
+				sql="INSERT INTO kho (mahanghoa, soluong, ngaycapnhat) VALUES ("+rs.getInt("mahanghoa")+", 0, 2014)";
+				st.execute(sql);
+			}
+		} catch (SQLException e) {
+			return "Error insert to mysql!!!!";
+		}
+		return "1";
+	}
+	
+	public boolean deleteSale(int id){
+		String sql="DELETE FROM hang_hoa WHERE mahanghoa="+id;
+		try {
+			st.execute(sql);
+			return true;
+		} catch (SQLException e) {
+			return false;
+		}
+	}
+	public String updateSale(int id, String name, int prices, String producer){
+		
+		String sql="UPDATE hang_hoa SET tenhanghoa=\""+name+"\", gia="+prices+", hangsanxuat=\""+producer+"\" WHERE mahanghoa="+id+";";
+		try {
+			st.execute(sql);
+			return "1";
+		} catch (SQLException e) {
+			return "Error update to mysql!!!!";
+		}
+	}
+	
+	public String insertXuat(int idkh, int idhh,int sl, int tong,  int datra) throws SQLException{
+		String sql="INSERT INTO hoadonxuat (ngaytra, sotienconlai, sotiendatra, soluong, mahanghoa, id) VALUES (\""+dateFormat.format(d)+"\", "+tong+", "+datra+", "+sl+", "+idhh+", "+idkh+")";
+		try {
+			st.execute(sql);
+			return "1";
+		} catch (SQLException e) {
+			System.out.println("error");
+			return "Error Insert to mysql!!!!";
+		}
+	}
+	
+	//Custommer
+	public String addCustomer(String name, String address){
+		String sql="INSERT INTO khachhang (ten, address) VALUES (\""+name+"\", \""+address+"\");";
+		try{
+			st.execute(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return "Error insert to mysql";
+		}
+		return "1";
+	}
+	public ObservableList<String> getKhachHangFX(ObservableList<Customer> obsList){
+		obsList.removeAll(obsList);
+		ObservableList<String> list=FXCollections.observableArrayList();
+		String sql="SELECT * FROM khachhang;";
+		try {
+			ResultSet rs=st.executeQuery(sql);
+			while (rs.next()) {
+				obsList.add(new Customer(rs.getInt("id"), rs.getString("ten"), rs.getString("address")));
+				list.add(rs.getString("ten"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 	public ObservableList<Integer> getIDCustomerFX(String name) {
 		ObservableList<Integer> list=FXCollections.observableArrayList();
@@ -217,23 +294,29 @@ public class MySQL {
 		}
 		return "";
 	}
-	public String addSale(String text, int parseInt, String selectedItem) {
-		int id=0;
-		for (Producer pro : QLController.qlnccList) {
-			if (pro.getName().equals(selectedItem)) {
-				id=pro.getId();
-			}
-		}
-		String sql="INSERT INTO hang_hoa (tenhanghoa, gia, idnhacungcap) VALUES (\""+text+"\", "+parseInt+", "+id+");";
+	public String updateCustomer(int id, String name, String add) {
+		String sql="UPDATE khachhang SET ten=\""+name+"\", address=\""+add+"\"  WHERE id="+id+";";
+		System.out.println(sql);
 		try {
 			st.execute(sql);
+			return "1";
 		} catch (SQLException e) {
-			return "Error insert to mysql!!!!";
+			return "Error update Customer to mysql!!!!";
 		}
-		return "1";
 	}
-	public String addCustomer(String name, String address){
-		String sql="INSERT INTO khachhang (ten, address) VALUES (\""+name+"\", \""+address+"\");";
+	public boolean deleteCustomer(int id) {
+		String sql="DELETE FROM khachhang WHERE id="+id;
+		try {
+			st.execute(sql);
+			return true;
+		} catch (SQLException e) {
+			System.out.println("Forein Key");
+			return false;
+		}
+		
+	}
+	public String addProducer(String name) {
+		String sql="INSERT INTO nhacungcap (tennhacungcap) VALUES (\""+name+"\");";
 		try{
 			st.execute(sql);
 		} catch (SQLException e) {
@@ -241,5 +324,15 @@ public class MySQL {
 			return "Error insert to mysql";
 		}
 		return "1";
+	}
+	public String updateProducer(int id, String name) {
+		String sql="UPDATE nhacungcap SET tennhacungcap=\""+name+"\" WHERE idnhacungcap="+id+";";
+		System.out.println(sql);
+		try {
+			st.execute(sql);
+			return "1";
+		} catch (SQLException e) {
+			return "Error update Producer to mysql!!!!";
+		}
 	}
 }
