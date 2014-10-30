@@ -396,7 +396,6 @@
                               <TableColumn fx:id="qlxuatc05" prefWidth="94.0" text="Giá" />
                               <TableColumn fx:id="qlxuatc06" prefWidth="97.0" text="Thành tiền" />
                               <TableColumn fx:id="qlxuatc07" prefWidth="128.0" text="Đã trả" />
-                              <TableColumn fx:id="qlxuatc08" prefWidth="75.0" text="Còn nợ" />
                            </columns>
                         </TableView>
                         <GridPane>
@@ -420,12 +419,13 @@
                      <children>
                         <TableView fx:id="qlnhap">
                            <columns>
-                              <TableColumn fx:id="qlkc012" prefWidth="96.0" text="Mã Xuất Nhập" />
-                              <TableColumn fx:id="qlkc022" prefWidth="70.0" text="Số Lượng" />
-                              <TableColumn fx:id="qlkc032" prefWidth="94.0" text="Giá" />
-                              <TableColumn fx:id="qlkc042" prefWidth="97.0" text="Ngày Cập Nhật" />
-                              <TableColumn fx:id="qlkc052" prefWidth="115.0" text="Tên Hàng Hóa" />
-                              <TableColumn fx:id="qlkc062" prefWidth="128.0" text="Tên Nhà Cung Cấp" />
+                              <TableColumn fx:id="qlnhapc01" prefWidth="96.0" text="Mã Xuất " />
+                              <TableColumn fx:id="qlnhapc02" prefWidth="75.0" text="Khách hàng" />
+                              <TableColumn fx:id="qlnhapc03" prefWidth="115.0" text="Tên Hàng Hóa" />
+                              <TableColumn fx:id="qlnhapc04" prefWidth="70.0" text="Số Lượng" />
+                              <TableColumn fx:id="qlnhapc05" prefWidth="94.0" text="Giá" />
+                              <TableColumn fx:id="qlnhapc06" prefWidth="97.0" text="Thành tiền" />
+                              <TableColumn fx:id="qlnhapc07" prefWidth="128.0" text="Đã trả" />
                            </columns>
                         </TableView>
                         <GridPane>

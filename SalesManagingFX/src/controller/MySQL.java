@@ -9,8 +9,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import model.Customer;
+import model.Nhap;
 import model.Producer;
 import model.Sales;
+import model.Xuat;
 import controller.QLController.QLKItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -338,6 +340,31 @@ public class MySQL {
 			return "1";
 		} catch (SQLException e) {
 			return "Error update Producer to mysql!!!!";
+		}
+	}
+	//Xuat nhap
+	public void getXuat(ObservableList<Xuat> obsList) {
+		obsList.removeAll(obsList);
+		String sql="select * from hoadonxuat,kho, hang_hoa,khachhang WHERE hoadonxuat.id=khachhang.id AND hoadonxuat.mahanghoa=kho.mahanghoa AND kho.mahanghoa=hang_hoa.mahanghoa;";
+		try {
+			ResultSet rs=st.executeQuery(sql);
+			while (rs.next()) {
+				obsList.add(new Xuat(rs.getString("ten"), rs.getString("tenhanghoa"), rs.getInt("mahoadonxuat"), rs.getInt("soluong"), rs.getInt("gia"), rs.getInt("sotienconlai"), rs.getInt("sotiendatra")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void getNhap(ObservableList<Nhap> obsList) {
+		obsList.removeAll(obsList);
+		String sql="select * from hoadonnhap,kho, hang_hoa,nhacungcap WHERE hoadonnhap.idnhacungcap=nhacungcap.idnhacungcap AND hoadonnhap.mahanghoa=kho.mahanghoa AND kho.mahanghoa=hang_hoa.mahanghoa;";
+		try {
+			ResultSet rs=st.executeQuery(sql);
+			while (rs.next()) {
+				obsList.add(new Nhap(rs.getString("tennhacungcap"), rs.getString("tenhanghoa"), rs.getInt("mahoadonnhap"), rs.getInt("soluong"), rs.getInt("gia"), rs.getInt("tongsotien"), rs.getInt("datra")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 }

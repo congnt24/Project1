@@ -2,7 +2,6 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Comparator;
 import java.util.ResourceBundle;
 
 import org.controlsfx.control.action.Action;
@@ -11,9 +10,10 @@ import org.controlsfx.dialog.Dialogs;
 
 import model.Customer;
 import model.Main;
+import model.Nhap;
 import model.Producer;
 import model.Sales;
-import javafx.beans.property.ReadOnlyObjectWrapper;
+import model.Xuat;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
@@ -86,6 +86,8 @@ public class QLController implements Initializable {
 	@FXML TableView<Customer> qlkh;
 	@FXML TableView<Producer> qlncc;
 	@FXML TableView<QLKItem> qlk;
+	@FXML TableView<Xuat> qlxuat;
+	@FXML TableView<Nhap> qlnhap;
 	
 	@FXML TableColumn<Sales, Integer> qlhhc01, qlhhc03 ;
 	@FXML TableColumn<Sales, String> qlhhc02 ;
@@ -96,6 +98,10 @@ public class QLController implements Initializable {
 	@FXML TableColumn<Producer, String> qlnccc02;
 	@FXML TableColumn<QLKItem, Integer> qlkc01,qlkc02,qlkc03;
 	@FXML TableColumn<QLKItem, String> qlkc04,qlkc05,qlkc06;	
+	@FXML TableColumn<Xuat, String> qlxuatc02,qlxuatc03;
+	@FXML TableColumn<Xuat, Integer> qlxuatc01,qlxuatc04,qlxuatc05,qlxuatc06,qlxuatc07;
+	@FXML TableColumn<Nhap, String> qlnhapc02,qlnhapc03;
+	@FXML TableColumn<Nhap, Integer> qlnhapc01,qlnhapc04,qlnhapc05,qlnhapc06,qlnhapc07;
 	
 	//Nhap hang hoa
 	public static NewsaleController t1;
@@ -113,6 +119,8 @@ public class QLController implements Initializable {
 	public static ObservableList<QLKItem> qlkList=FXCollections.observableArrayList();
 	public static ObservableList<String> listName=FXCollections.observableArrayList();
 	public static ObservableList<String> listNameCustomer=FXCollections.observableArrayList();
+	public static ObservableList<Xuat> qlxuatList=FXCollections.observableArrayList();
+	public static ObservableList<Nhap> qlnhapList=FXCollections.observableArrayList();
 	
 
 	@Override
@@ -208,13 +216,33 @@ public class QLController implements Initializable {
 		qlkc05.setCellValueFactory(new PropertyValueFactory<QLKItem, String>("name"));
 		qlkc06.setCellValueFactory(new PropertyValueFactory<QLKItem, String>("producer"));
 		qlk.setItems(qlkList);
-		
+		//QL xuat
+		qlxuatc01.setCellValueFactory(new PropertyValueFactory<Xuat, Integer>("id"));
+		qlxuatc02.setCellValueFactory(new PropertyValueFactory<Xuat, String>("customer"));
+		qlxuatc03.setCellValueFactory(new PropertyValueFactory<Xuat, String>("sale"));
+		qlxuatc04.setCellValueFactory(new PropertyValueFactory<Xuat, Integer>("amount"));
+		qlxuatc05.setCellValueFactory(new PropertyValueFactory<Xuat, Integer>("prices"));
+		qlxuatc06.setCellValueFactory(new PropertyValueFactory<Xuat, Integer>("sum"));
+		qlxuatc07.setCellValueFactory(new PropertyValueFactory<Xuat, Integer>("paid"));
+		qlxuat.setItems(qlxuatList);
+		//QL nhap
+		qlnhapc01.setCellValueFactory(new PropertyValueFactory<Nhap, Integer>("id"));
+		qlnhapc02.setCellValueFactory(new PropertyValueFactory<Nhap, String>("customer"));
+		qlnhapc03.setCellValueFactory(new PropertyValueFactory<Nhap, String>("sale"));
+		qlnhapc04.setCellValueFactory(new PropertyValueFactory<Nhap, Integer>("amount"));
+		qlnhapc05.setCellValueFactory(new PropertyValueFactory<Nhap, Integer>("prices"));
+		qlnhapc06.setCellValueFactory(new PropertyValueFactory<Nhap, Integer>("sum"));
+		qlnhapc07.setCellValueFactory(new PropertyValueFactory<Nhap, Integer>("paid"));
+		qlnhapc07.setCellValueFactory(new PropertyValueFactory<Nhap, Integer>("debt"));
+		qlnhap.setItems(qlnhapList);
 		
 		//List
 		
 		//Combobox
 		listName=Main.mysql.getHangHoaFX(list);
 		listNameCustomer=Main.mysql.getKhachHangFX(qlkhList);
+		Main.mysql.getXuat(qlxuatList);
+		Main.mysql.getNhap(qlnhapList);
 		namesale.setItems(listName);
 		nameSale.setItems(namesale.getItems());
 		namesale.getSelectionModel().selectedItemProperty().addListener(new comboBoxNameSale(idsale));
